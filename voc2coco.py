@@ -90,7 +90,8 @@ def convert_xmls_to_cocojson(annotation_paths: List[str],
         "annotations": [],
         "categories": []
     }
-    bnd_id = 1  # START_BOUNDING_BOX_ID, TODO input as args ?
+    img_id = 0
+    bnd_id = 0  # START_BOUNDING_BOX_ID, TODO input as args ?
     print('Start converting !')
     for a_path in tqdm(annotation_paths):
         # Read annotation xml
@@ -99,14 +100,17 @@ def convert_xmls_to_cocojson(annotation_paths: List[str],
 
         img_info = get_image_info(annotation_root=ann_root,
                                   extract_num_from_imgid=extract_num_from_imgid)
-        img_id = img_info['id']
+        # have bug: non-unique image IDs
+        # img_id = img_info['id']
+        img_id += 1
+        img_info['id'] = img_id
         output_json_dict['images'].append(img_info)
 
         for obj in ann_root.findall('object'):
+            bnd_id += 1
             ann = get_coco_annotation_from_obj(obj=obj, label2id=label2id)
             ann.update({'image_id': img_id, 'id': bnd_id})
             output_json_dict['annotations'].append(ann)
-            bnd_id = bnd_id + 1
 
     for label, label_id in label2id.items():
         category_info = {'supercategory': 'none', 'id': label_id, 'name': label}
