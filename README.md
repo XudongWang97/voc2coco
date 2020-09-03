@@ -2,6 +2,12 @@
 
 This is script for converting VOC format XMLs to COCO format json(ex. coco_eval.json).
 
+### Fork comment
+
+This repository is forked from [yukkyo/voc2coco](https://github.com/yukkyo/voc2coco), with an [issue about non-unique image IDs](https://github.com/yukkyo/voc2coco/issues/3). The issue has been fixed and test in this forked repository.
+
+Thanks [Yukkyo](https://github.com/yukkyo) for creating this handy convert tool.
+
 ### Why we need to convert VOC xmls to COCO format json ?
 
 We can use COCO API, this is very useful(ex. calculating mAP).
